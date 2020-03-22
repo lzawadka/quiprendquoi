@@ -1,0 +1,32 @@
+include ../partials/header.pug
+main.party
+  h1 Qui prend quoi ?
+  h2 Évenement #{party.name}
+  h3 Crée par #{party.author}
+  label.share(for='url')  Partagez l'évènement
+  input(id='url' value=`${url}` data-clipboard=`${url}` data-share-url=`${url}` data-share-title=`${party.name}` data-share-text=`${party.author}`)
+  section.content__fields.first
+    form(method="post" action=`/party/${id}/items`)
+      div.element__fields
+        label(for="item") Nom de l'évèment 
+        input(type="text" id="item" name="name" required)
+        label(for="user") Nom de l'auteur  
+        input(type="text" id="author" name="user" required)
+      button(type="submit") Ajouter
+      h3 Liste des éléments : 
+        ul
+          each val in party.items
+            li #{val.name} ajouter par #{val.user}.
+  section 
+    h2 Modifier l'évènement ici : 
+    form(method="post" action=`/party/${id}`)
+      div.element__fields
+        label(for="item") Nom de l'événement
+        input(name="name" id="item" required minlength="3" placeholder="Anniversaire")
+        label(for="author") Nom de l'auteur
+        input(name="author" id="author" required placeholder="Auteur")
+        label(for='date')  Date de l'évènement
+        input(name="date" id="date" type="date")
+      button(type="submit") Modifier l'évènement
+script.
+  party = !{JSON.stringify(party)}
